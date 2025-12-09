@@ -23,10 +23,10 @@ except ImportError:
 
 warnings.filterwarnings("ignore", category=UserWarning, module='PIL')
 
-# 图片目标尺寸：3.5cm x 5cm → 像素（96 DPI）
-CM_TO_PIXEL = 96 / 2.54
-IMG_WIDTH_PX = int(5 * CM_TO_PIXEL)    # ≈ 189 (5cm宽度)
-IMG_HEIGHT_PX = int(3.5 * CM_TO_PIXEL) # ≈ 132 (3.5cm高度)
+# 图片目标尺寸：3.5cm x 5cm → 像素（600 DPI）
+CM_TO_PIXEL = 600 / 2.54
+IMG_WIDTH_PX = int(5 * CM_TO_PIXEL)    # ≈ 1181 (5cm宽度 @ 600 DPI)
+IMG_HEIGHT_PX = int(3.5 * CM_TO_PIXEL) # ≈ 827 (3.5cm高度 @ 600 DPI)
 
 # openpyxl 行列尺寸参考值
 COL_WIDTH_FOR_IMG = 35   # E 和 M 列宽度
@@ -68,7 +68,7 @@ def embed_images_to_excel(excel_path, zip_path, output_path):
                 if pil_img.mode in ("RGBA", "P"):
                     pil_img = pil_img.convert("RGB")
                 img_buffer = io.BytesIO()
-                pil_img.save(img_buffer, format='JPEG')
+                pil_img.save(img_buffer, format='JPEG', dpi=(600, 600), quality=95)
                 img_buffer.seek(0)
                 xl_img = XLImage(img_buffer)
                 xl_img.width = IMG_WIDTH_PX
@@ -87,7 +87,7 @@ def embed_images_to_excel(excel_path, zip_path, output_path):
                 if pil_img.mode in ("RGBA", "P"):
                     pil_img = pil_img.convert("RGB")
                 img_buffer = io.BytesIO()
-                pil_img.save(img_buffer, format='JPEG')
+                pil_img.save(img_buffer, format='JPEG', dpi=(600, 600), quality=95)
                 img_buffer.seek(0)
                 xl_img = XLImage(img_buffer)
                 xl_img.width = IMG_WIDTH_PX
@@ -349,7 +349,7 @@ def add_row_to_table_with_images_from_zip(table, row, serial_number, folder_imag
             if pil_img.mode in ("RGBA", "P"):
                 pil_img = pil_img.convert("RGB")
             img_buffer = io.BytesIO()
-            pil_img.save(img_buffer, format='JPEG')
+            pil_img.save(img_buffer, format='JPEG', dpi=(600, 600), quality=95)
             img_buffer.seek(0)
             # 插入图片
             run = cells[hazard_photo_col].paragraphs[0].add_run()
@@ -394,7 +394,7 @@ def add_row_to_table_with_images_from_both_zip(table, row, serial_number, folder
             if pil_img.mode in ("RGBA", "P"):
                 pil_img = pil_img.convert("RGB")
             img_buffer = io.BytesIO()
-            pil_img.save(img_buffer, format='JPEG')
+            pil_img.save(img_buffer, format='JPEG', dpi=(600, 600), quality=95)
             img_buffer.seek(0)
             # 插入图片
             run = cells[hazard_photo_col].paragraphs[0].add_run()
@@ -417,7 +417,7 @@ def add_row_to_table_with_images_from_both_zip(table, row, serial_number, folder
             if pil_img.mode in ("RGBA", "P"):
                 pil_img = pil_img.convert("RGB")
             img_buffer = io.BytesIO()
-            pil_img.save(img_buffer, format='JPEG')
+            pil_img.save(img_buffer, format='JPEG', dpi=(600, 600), quality=95)
             img_buffer.seek(0)
             # 插入图片
             run = cells[close_photo_col].paragraphs[0].add_run()
